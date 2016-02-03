@@ -16,13 +16,22 @@ function Echidna(name){
   // constructs the name of our overall database;
   this.name = name;
   // multiple tables will go into this.
+  // option 1: this is fine
   this.tables = {};
+
   // our table constructor
   this.createTable = function(name, schema){
     if (!schema){
       schema = {};
     }
-    this.tables.push(new EchidnaTable(name,schema));
+    // option 1:
+    //creates a new key with keyname of name
+    this.tables[name] = new EchidnaTable(name,schema)
+    // this.tables.push(new EchidnaTable(name,schema));
+  }
+  this.create = function(table_name, data){
+    this.tables[table_name].data.push(data);
+    return this;
   }
   // write a new function that adds data to our table by name!
 
@@ -43,6 +52,11 @@ console.log(myDB);
 myDB.createTable('friends');
 console.log(myDB);
 // MAKE THIS WORK!
-// myDB.create('friends',{name:"Charlie",occupation:"Bootcamp Leader"});
-// console.log(myDB);
+myDB.create('friends',{name:"Charlie",occupation:"Bootcamp Leader"});
+console.log(myDB);
+console.log(myDB.tables['friends'].data);
+console.log(myDB.tables.friends.data);
+
+
+
 // where myDB now has a table of friends with a record of {name:"Charlie",occupation:"Bootcamp Leader"}.
